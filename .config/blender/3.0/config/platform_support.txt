@@ -1,0 +1,1 @@
+{Intel/Mesa Intel(R) UHD Graphics 620 (KBL GT2)/4.6 (Core Profile) Mesa 24.2.8-1~bpo12+1pop1~1744225826~22.04~b077665}=SUPPORTED

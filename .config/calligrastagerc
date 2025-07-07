@@ -1,0 +1,90 @@
+[DockWidget sharedtooldocker]
+TabbedMode=false
+
+[DocumentSectionView]
+DocumentSectionViewMode=0
+
+[Interface]
+ShowRulers=false
+ZoomSlidesSorter=7012449
+
+[KoPageApp/DocumentStructureDocker]
+ViewMode=Thumbnail
+
+[MainWindow]
+ko_geometry=AdnQywADAAAAAAFAAAAAnQAABj8AAANJAAABQAAAAMIAAAY/AAADSQAAAAAAAAAAB4AAAAFAAAAAwgAABj8AAANJ
+ko_windowstate=AAAA/wAAAAD9AAAAAgAAAAAAAAAAAAAAAPwCAAAAAfsAAAAUAFMAdABlAG4AYwBpAGwAQgBvAHgAAAAAAP////8AAAB5AP///wAAAAEAAAUAAAACTfwCAAAABvsAAAAgAHMAaABhAHIAZQBkAHQAbwBvAGwAZABvAGMAawBlAHIAAAAAFgAAAUwAAABYAP////sAAAAoAFMAbgBhAHAARwB1AGkAZABlACAAUAByAG8AcABlAHIAdABpAGUAcwAAAAAA/////wAAABQA////+wAAACoAUwBoAGEAcABlAEMAbwBsAGwAZQBjAHQAaQBvAG4ARABvAGMAawBlAHIBAAAAOwAAAEUAAABFAAgAE/sAAAAgAFMAaABhAHAAZQAgAFAAcgBvAHAAZQByAHQAaQBlAHMAAAAAAP////8AAAAUAP////sAAAAqAGQAbwBjAHUAbQBlAG4AdAAgAHMAZQBjAHQAaQBvAG4AIAB2AGkAZQB3AQAAAIYAAACSAAAAcwD////7AAAADgBNAG8AZABlAEIAbwB4AQAAAR4AAAFqAAAAjwAIABMAAAAAAAACTQAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAABAAAAFgBtAGEAaQBuAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAAAAAAA==
+
+[Recent Dirs]
+OpenDialog[$e]=$HOME,$HOME/Documents
+
+[SlideShow]
+PresentationMonitor=0
+PresenterViewEnabled=false
+
+[Stencil Box]
+viewMode=1
+
+[TemplateChooserDialog]
+AlwaysUseTemplate=
+DetailsPaneSplitterSizes=670,328
+FullTemplateName[$e]=/usr/share/calligrastage/templates/odf/.source/cohere-blue.otp
+LastReturnType=Template
+
+[calligra]
+ColorSpacePlugins=kolcmsengine
+DevicePlugins=spacenavigator
+DevicePluginsDisabled=
+DockerPlugins=calligradockers,calligra_docker_stencils
+DockerPluginsDisabled=
+ModeBoxHorizontalTabsSide=0
+ShapePlugins=artistictextshape,chartshape,formulashape,musicshape,pathshapes,pictureshape,pluginshape,textshape,threedshape,vectorshape,videoshape
+ShapePluginsDisabled=
+TextEditingPlugins=autocorrect,changecase
+TextInlinePlugins=textvariables,kprvariables
+TextInlinePluginsDisabled=
+ToolPlugins=basicflakesplugin,defaulttools
+ToolPluginsDisabled=
+
+[calligrastage]
+RestorePositionForNextInstance=false
+State=AAAA/wAAAAD9AAAAAgAAAAAAAAAAAAAAAPwCAAAAAfsAAAAUAFMAdABlAG4AYwBpAGwAQgBvAHgAAAAAAP////8AAAB5AP///wAAAAEAAAM3AAACL/wCAAAABvsAAAAgAHMAaABhAHIAZQBkAHQAbwBvAGwAZABvAGMAawBlAHIAAAAAFgAAAUwAAABYAP////sAAAAoAFMAbgBhAHAARwB1AGkAZABlACAAUAByAG8AcABlAHIAdABpAGUAcwAAAAAA/////wAAAE8A////+wAAACoAUwBoAGEAcABlAEMAbwBsAGwAZQBjAHQAaQBvAG4ARABvAGMAawBlAHIBAAAAOwAAAEUAAABFAAgAE/sAAAAgAFMAaABhAHAAZQAgAFAAcgBvAHAAZQByAHQAaQBlAHMAAAAAAP////8AAAAUAP////sAAAAqAGQAbwBjAHUAbQBlAG4AdAAgAHMAZQBjAHQAaQBvAG4AIAB2AGkAZQB3AQAAAIYAAACSAAAAcwD////7AAAADgBNAG8AZABlAEIAbwB4AQAAAR4AAAFMAAAAjwAIABMAAAHDAAACLwAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAABAAAAFgBtAGEAaQBuAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAAAAAAA==
+ToolBarsMovable=Disabled
+
+[calligrastage][DockWidget ModeBox]
+Collapsed=false
+DockArea=2
+Locked=false
+
+[calligrastage][DockWidget Shape Properties]
+Collapsed=false
+DockArea=2
+Locked=false
+
+[calligrastage][DockWidget ShapeCollectionDocker]
+Collapsed=false
+DockArea=2
+Locked=false
+
+[calligrastage][DockWidget SnapGuide Properties]
+Collapsed=false
+DockArea=2
+Locked=false
+
+[calligrastage][DockWidget StencilBox]
+Collapsed=false
+DockArea=1
+Locked=false
+
+[calligrastage][DockWidget document section view]
+Collapsed=false
+DockArea=2
+Locked=false
+
+[calligrastage][DockWidget sharedtooldocker]
+Collapsed=false
+DockArea=2
+Locked=false
+
+[stage]
+PageEffectPlugins=kpr_pageeffect_barwipe,kpr_pageeffect_clockwipe,kpr_pageeffect_edgewipe,kpr_pageeffect_fade,kpr_pageeffect_iriswipe,kpr_pageeffect_matrixwipe,kpr_pageeffect_slidewipe,kpr_pageeffect_spacerotation,kpr_pageeffect_swapeffect
