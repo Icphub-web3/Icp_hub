@@ -22,7 +22,7 @@
     "AIRequestQuotaInfoSetting": "{\"cycle_history\":[{\"end_date\":\"2025-08-06T06:40:05.637179Z\",\"was_quota_exceeded\":false,\"banner_state\":{\"dismissed\":false}}]}",
     "ShouldAddAgentModeChip": "false",
     "WorkflowsBoxOpen": "false",
-    "AIRequestLimitInfo": "{\"limit\":150,\"num_requests_used_since_refresh\":12,\"next_refresh_time\":\"2025-08-06T06:40:05.637179Z\",\"is_unlimited\":false,\"request_limit_refresh_duration\":\"Monthly\",\"accepted_autosuggestions_limit\":999999,\"is_unlimited_autosuggestions\":true,\"accepted_autosuggestions_since_last_refresh\":5,\"is_unlimited_voice\":false,\"voice_request_limit\":10000,\"voice_token_limit\":30000,\"voice_requests_used_since_last_refresh\":0,\"voice_tokens_used_since_last_refresh\":0,\"is_unlimited_codebase_indices\":false,\"max_codebase_indices\":3,\"max_files_per_repo\":5000}",
+    "AIRequestLimitInfo": "{\"limit\":150,\"num_requests_used_since_refresh\":12,\"next_refresh_time\":\"2025-08-06T06:40:05.637179Z\",\"is_unlimited\":false,\"request_limit_refresh_duration\":\"Monthly\",\"accepted_autosuggestions_limit\":999999,\"is_unlimited_autosuggestions\":true,\"accepted_autosuggestions_since_last_refresh\":11,\"is_unlimited_voice\":false,\"voice_request_limit\":10000,\"voice_token_limit\":30000,\"voice_requests_used_since_last_refresh\":0,\"voice_tokens_used_since_last_refresh\":0,\"is_unlimited_codebase_indices\":false,\"max_codebase_indices\":3,\"max_files_per_repo\":5000}",
     "WarpDriveSharingOnboardingBlockShown": "true"
   }
 }
