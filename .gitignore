@@ -1,27 +1,11 @@
-# Various IDEs and Editors
-.vscode/
-.idea/
-**/*~
-
-# Mac OSX temporary files
-.DS_Store
-**/.DS_Store
-
-# dfx temporary files
+# Build artifacts
 .dfx/
-
-# generated files
-**/declarations/
-
-# rust
-target/
-
-# frontend code
 node_modules/
 dist/
-.svelte-kit/
+.vite/
 
-# environment variables
+# System files
+.DS_Store
+
+# Environment files
 .env
-
-.mops
