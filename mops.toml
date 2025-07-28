@@ -1,0 +1,7 @@
+[package]
+name = "icp-hub"
+version = "0.1.0"
+description = "ICP Hub - Decentralized Git Platform"
+
+[dependencies]
+base = "0.14.14"

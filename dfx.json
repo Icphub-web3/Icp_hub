@@ -4,18 +4,24 @@
       "main": "src/Icp_hub_backend/main.mo",
       "type": "motoko"
     },
-    "icp-hub-frontend": {
+    "Icp_hub_frontend": {
       "dependencies": [
         "Icp_hub_backend"
       ],
       "frontend": {
-        "entrypoint": "src/icp-hub-frontend/index.html"
+        "entrypoint": "src/Icp_hub_frontend/src/index.html"
       },
       "source": [
-        "src/icp-hub-frontend/dist"
+        "src/Icp_hub_frontend/dist"
       ],
       "type": "assets",
-      "build": "cd src/icp-hub-frontend && npm run build"
+      "workspace": "Icp_hub_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": "mops sources"
     }
   },
   "networks": {
