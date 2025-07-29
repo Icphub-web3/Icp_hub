@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Production builds
+dist/
+build/
+
+# Generated files
+*.min.js
+*.min.css
+
+# Cache directories
+.vite/
+.cache/
+
+# Coverage reports
+coverage/
+
+# IDE/Editor files
+.vscode/
+.idea/
+
+# Auto-generated declarations
+*.d.ts
+declarations/
+
+# Package files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.test
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db

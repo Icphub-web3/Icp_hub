@@ -1,0 +1,173 @@
+type UserProfile = 
+ record {
+   avatar: opt blob;
+   bio: opt text;
+   displayName: opt text;
+   externalLinks: vec record {
+                        text;
+                        text;
+                      };
+   location: opt text;
+   skills: vec text;
+   socialLinks: vec record {
+                      text;
+                      text;
+                    };
+   website: opt text;
+ };
+type User = 
+ record {
+   createdAt: int;
+   email: opt text;
+   "principal": principal;
+   profile: UserProfile;
+   repositories: vec text;
+   updatedAt: int;
+   username: text;
+ };
+type UploadFileRequest = 
+ record {
+   commitMessage: text;
+   content: blob;
+   path: text;
+   repositoryId: text;
+ };
+type SerializableRepository = 
+ record {
+   createdAt: int;
+   description: opt text;
+   files: vec record {
+                text;
+                FileEntry;
+              };
+   forks: nat;
+   id: text;
+   isPrivate: bool;
+   language: opt text;
+   name: text;
+   owner: principal;
+   size: nat;
+   stars: nat;
+   updatedAt: int;
+ };
+type Result_7 = 
+ variant {
+   Err: Error;
+   Ok: vec principal;
+ };
+type Result_6 = 
+ variant {
+   Err: Error;
+   Ok: vec record {
+             text;
+             text;
+           };
+ };
+type Result_5 = 
+ variant {
+   Err: Error;
+   Ok: SerializableRepository;
+ };
+type Result_4 = 
+ variant {
+   Err: Error;
+   Ok: FileListResponse;
+ };
+type Result_3 = 
+ variant {
+   Err: Error;
+   Ok: RepositoryListResponse;
+ };
+type Result_2 = 
+ variant {
+   Err: Error;
+   Ok: text;
+ };
+type Result_1 = 
+ variant {
+   Err: Error;
+   Ok: User;
+ };
+type Result = 
+ variant {
+   Err: Error;
+   Ok: FileEntry;
+ };
+type RepositoryListResponse = 
+ record {
+   hasMore: bool;
+   repositories: vec SerializableRepository;
+   totalCount: nat;
+ };
+type RegisterUserRequest = 
+ record {
+   email: opt text;
+   profile: UserProfile;
+   username: text;
+ };
+type PaginationParams = 
+ record {
+   limit: nat;
+   page: nat;
+ };
+type MemoryStats = 
+ record {
+   availableMemory: nat;
+   cycles: nat;
+   heapSize: nat;
+   totalMemory: nat;
+   usedMemory: nat;
+ };
+type FileListResponse = 
+ record {
+   files: vec FileEntry;
+   path: text;
+   totalCount: nat;
+ };
+type FileEntry = 
+ record {
+   author: principal;
+   commitMessage: opt text;
+   content: blob;
+   hash: text;
+   lastModified: int;
+   path: text;
+   size: nat;
+   version: nat;
+ };
+type Error = 
+ variant {
+   BadRequest: text;
+   Conflict: text;
+   Forbidden: text;
+   InternalError: text;
+   NotFound: text;
+   Unauthorized: text;
+ };
+type CreateRepositoryRequest = 
+ record {
+   description: opt text;
+   isPrivate: bool;
+   license: opt text;
+   name: text;
+ };
+service : {
+  addCollaborator: (text, principal) -> (Result_2);
+  createRepository: (CreateRepositoryRequest) -> (Result_5);
+  forkRepository: (text, opt text) -> (Result_5);
+  getCollaborators: (text) -> (Result_7) query;
+  getFile: (text, text) -> (Result) query;
+  getLinkedAccounts: () -> (Result_6) query;
+  getMemoryStats: () -> (MemoryStats) query;
+  getRepository: (text) -> (Result_5) query;
+  getUser: (principal) -> (Result_1) query;
+  health: () -> (bool) query;
+  linkExternalAccount: (text, text) -> (Result_2);
+  listFiles: (text, opt text) -> (Result_4) query;
+  listUserRepositories: (opt text, opt PaginationParams) -> (Result_3) query;
+  registerUser: (RegisterUserRequest) -> (Result_1);
+  starRepository: (text) -> (Result_2);
+  unstarRepository: (text) -> (Result_2);
+  updateProfile: (UserProfile) -> (Result_1);
+  uploadFile: (UploadFileRequest) -> (Result);
+}
