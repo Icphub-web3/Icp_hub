@@ -20,6 +20,7 @@ export const useICPHub = () => {
         const backendActor = authService.createActor(canisterId, idlFactory);
         setActor(backendActor);
       } catch (err) {
+        console.log(err); // Log full error object for UserInterrupt debugging
         console.error('Failed to create backend actor:', err);
         setError(err.message);
       }
@@ -56,6 +57,7 @@ export const useICPHub = () => {
 
         return result;
       } catch (err) {
+        console.log(err); // Log full error object for UserInterrupt debugging
         const errorMessage = err.message || 'An unknown error occurred';
         setError(errorMessage);
         throw new Error(errorMessage);

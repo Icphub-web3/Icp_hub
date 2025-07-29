@@ -11,6 +11,7 @@ const Login = () => {
     try {
       await login();
     } catch (error) {
+      console.log(error); // Log full error object for UserInterrupt debugging
       console.error('Login failed:', error);
     }
   };
@@ -19,6 +20,7 @@ const Login = () => {
     try {
       await logout();
     } catch (error) {
+      console.log(error); // Log full error object for UserInterrupt debugging
       console.error('Logout failed:', error);
     }
   };

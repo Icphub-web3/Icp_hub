@@ -8,8 +8,9 @@ import Buffer "mo:base/Buffer";
 import Result "mo:base/Result";
 import Nat "mo:base/Nat";
 import Nat8 "mo:base/Nat8";
+import Nat32 "mo:base/Nat32";
 import Blob "mo:base/Blob";
-import SHA256 "mo:sha2/Sha256";
+import Hash "mo:base/Hash";
 
 actor ICPHub {
   // Define basic types internally to avoid dependencies
@@ -245,23 +246,21 @@ actor ICPHub {
     Text.size(beforeAt) <= 64 and Text.size(afterAt) <= 253;
   };
   
-  // SHA-256 hash function for file integrity
+  // Simple hash function for file integrity
   private func calculateFileHash(content: Blob): Text {
-    let hash = SHA256.Digest(#sha256);
-    hash.writeBlob(content);
-    let hashBytes = hash.sum();
+    let contentArray = Blob.toArray(content);
+    var hash: Nat32 = 0;
+    
+    // Simple hash calculation
+    for (byte in contentArray.vals()) {
+      hash := hash * 31 + Nat32.fromNat(Nat8.toNat(byte));
+    };
+    
+    // Add content size to make hash more unique
+    hash := hash + Nat32.fromNat(content.size());
     
     // Convert to hex string
-    var hexString = "";
-    for (byte in hashBytes.vals()) {
-      let hex = Nat8.toText(byte);
-      if (byte < 16) {
-        hexString := hexString # "0" # hex;
-      } else {
-        hexString := hexString # hex;
-      };
-    };
-    hexString;
+    Nat32.toText(hash);
   };
 
   private func isValidRepositoryName(name: Text): Bool {

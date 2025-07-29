@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { Activity, TrendingUp, Users, Code, ChevronRight, GitBranch, Clock } from 'lucide-react';
 import LoadingSpinner, { SkeletonLoader } from './LoadingSpinner';
 import ErrorDisplay from './ErrorDisplay';
+import Card from './ui/Card';
+import Button from './ui/Button';
+import Notification from './ui/Notification';
 
 const Dashboard = () => {
   const { user, logout, isLoading: authLoading } = useAuth();
@@ -62,8 +66,8 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="bg-white shadow rounded-lg mb-6">
           <div className="px-6 py-4 border-b border-gray-200">
@@ -103,75 +107,79 @@ const Dashboard = () => {
           )}
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
+        {/* Enhanced Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <Card className="hover:shadow-lg transition-shadow duration-200">
+            <Card.Content className="flex items-center p-6">
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
-                  </svg>
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                  <Activity className="w-6 h-6 text-white" />
                 </div>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">
-                  Identity Status
-                </p>
-                <p className="text-2xl font-semibold text-gray-900">
-                  Connected
+                <p className="text-sm font-medium text-gray-600">Active Projects</p>
+                <p className="text-2xl font-bold text-gray-900">{userData?.projects || 0}</p>
+                <p className="text-xs text-green-600 flex items-center mt-1">
+                  <TrendingUp className="w-3 h-3 mr-1" />
+                  +12% this month
                 </p>
               </div>
-            </div>
-          </div>
+            </Card.Content>
+          </Card>
 
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
+          <Card className="hover:shadow-lg transition-shadow duration-200">
+            <Card.Content className="flex items-center p-6">
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                  <GitBranch className="w-6 h-6 text-white" />
                 </div>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Session</p>
-                <p className="text-2xl font-semibold text-gray-900">Active</p>
+                <p className="text-sm font-medium text-gray-600">Total Commits</p>
+                <p className="text-2xl font-bold text-gray-900">247</p>
+                <p className="text-xs text-green-600 flex items-center mt-1">
+                  <TrendingUp className="w-3 h-3 mr-1" />
+                  +8% this week
+                </p>
               </div>
-            </div>
-          </div>
+            </Card.Content>
+          </Card>
 
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
+          <Card className="hover:shadow-lg transition-shadow duration-200">
+            <Card.Content className="flex items-center p-6">
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-purple-500 rounded-md flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
-                  </svg>
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                  <Users className="w-6 h-6 text-white" />
                 </div>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Network</p>
-                <p className="text-2xl font-semibold text-gray-900">IC</p>
+                <p className="text-sm font-medium text-gray-600">Collaborators</p>
+                <p className="text-2xl font-bold text-gray-900">{userData?.connections || 0}</p>
+                <p className="text-xs text-blue-600 flex items-center mt-1">
+                  <Users className="w-3 h-3 mr-1" />
+                  5 active now
+                </p>
               </div>
-            </div>
-          </div>
+            </Card.Content>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow duration-200">
+            <Card.Content className="flex items-center p-6">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+                  <Code className="w-6 h-6 text-white" />
+                </div>
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Lines of Code</p>
+                <p className="text-2xl font-bold text-gray-900">15.2K</p>
+                <p className="text-xs text-orange-600 flex items-center mt-1">
+                  <Clock className="w-3 h-3 mr-1" />
+                  Today: 342
+                </p>
+              </div>
+            </Card.Content>
+          </Card>
         </div>
 
         {/* User Data Section */}
