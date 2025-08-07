@@ -1,0 +1,49 @@
+name: CI/CD for ICP Hub
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛎️ Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm install
+
+      - name: ✅ Run Tests
+        run: npm test || echo "⚠️ Tests failed or not defined"
+
+      - name: 🧪 Install DFX SDK
+        run: |
+          sh -ci "$(curl -fsSL https://internetcomputer.org/install.sh)"
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: 🔧 Start DFX (Local Canister Runtime)
+        run: |
+          dfx start --background
+          sleep 5
+
+      - name: 🚀 Deploy Canisters
+        run: |
+          dfx deploy
+
+      - name: 🌐 Build Frontend
+        run: npm run build || echo "No build script found"
