@@ -53,11 +53,36 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=raw,value=latest,enable={{is_default_branch}}
 
+      - name: Detect project structure
+        id: detect
+        run: |
+          # Check for Dockerfile in root
+          if [ -f "Dockerfile" ]; then
+            echo "context=." >> $GITHUB_ENV
+            echo "dockerfile=Dockerfile" >> $GITHUB_ENV
+          # Check for Dockerfile in frontend directory
+          elif [ -f "frontend/Dockerfile" ]; then
+            echo "context=./frontend" >> $GITHUB_ENV
+            echo "dockerfile=./frontend/Dockerfile" >> $GITHUB_ENV
+          # Check for Dockerfile in src directory
+          elif [ -f "src/Dockerfile" ]; then
+            echo "context=./src" >> $GITHUB_ENV
+            echo "dockerfile=./src/Dockerfile" >> $GITHUB_ENV
+          # Check for Dockerfile in docker directory
+          elif [ -f "docker/Dockerfile" ]; then
+            echo "context=./docker" >> $GITHUB_ENV
+            echo "dockerfile=./docker/Dockerfile" >> $GITHUB_ENV
+          else
+            echo "Dockerfile not found in common locations"
+            exit 1
+          fi
+
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09
         with:
-          context: .
+          context: ${{ env.context }}
+          file: ${{ env.dockerfile }}
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
