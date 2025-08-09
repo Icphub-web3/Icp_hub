@@ -1,10 +1,10 @@
-# OPENKEY
+# OPENKEYHUB
 
-**OPENKEYHUB** is a comprehensive multichain development platform designed to revolutionize Web3 development by providing seamless integration across multiple blockchain networks. Built with modern web technologies and powered by the Internet Computer Protocol (ICP), OPENKEY serves as a unified hub for developers to build, deploy, and manage decentralized applications across Ethereum, Internet Computer, Polygon, BSC, Avalanche, and other leading blockchain ecosystems.
+**OPENKEYHUB** is a comprehensive multichain development platform designed to revolutionize Web3 development by providing seamless integration across multiple blockchain networks. Built with modern web technologies and powered by the Internet Computer Protocol (ICP), OPENKEYHUB serves as a unified hub for developers to build, deploy, and manage decentralized applications across Ethereum, Internet Computer, Polygon, BSC, Avalanche, and other leading blockchain ecosystems.
 
 ## Overview
 
-OPENKEY addresses the fragmentation challenges in the Web3 development ecosystem by offering a single, intuitive interface that connects disparate blockchain networks. The platform enables developers to leverage the unique capabilities of different blockchains while maintaining consistency in their development workflow.
+OPENKEYHUB addresses the fragmentation challenges in the Web3 development ecosystem by offering a single, intuitive interface that connects disparate blockchain networks. The platform enables developers to leverage the unique capabilities of different blockchains while maintaining consistency in their development workflow.
 
 ## Frontend Installation and Setup
 
