@@ -1,45 +1,19 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-name: Node.js CI
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-    
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-          
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Build source code
-        run: npm run build --if-present
-        
-      - name: Run tests
-        run: npm test
-        
-      - name: Upload test coverage
-        if: matrix.node-version == '20.x'
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage/lcov.info
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: false
+##[debug]Evaluating condition for step: 'Install dependencies'
+##[debug]Evaluating: success()
+##[debug]Evaluating success:
+##[debug]=> true
+##[debug]Result: true
+##[debug]Starting: Install dependencies
+##[debug]Loading inputs
+##[debug]Loading env
+Run npm ci
+##[debug]/usr/bin/bash -e /home/runner/work/_temp/60e0e9e7-7065-45d8-aa8d-952d09a0cc20.sh
+npm error code ENOENT
+npm error syscall open
+npm error path /home/runner/work/Icp_hub/Icp_hub/package.json
+npm error errno -2
+npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/home/runner/work/Icp_hub/Icp_hub/package.json'
+npm error enoent This is related to npm not being able to find a file.
+npm error enoent
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-08-09T10_11_39_536Z-debug-0.log
+Error: Process completed with ex
