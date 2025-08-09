@@ -1,0 +1,5 @@
+[dependencies]
+base = "0.15.1"
+base-x-encoder = "2.0.0"
+sha2 = "0.1.6"
+hex = "1.0.1"

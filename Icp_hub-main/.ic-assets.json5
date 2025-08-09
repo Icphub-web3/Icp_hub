@@ -1,0 +1,6 @@
+echo '[
+  {
+    "match": "**/*",
+    "security_policy": "standard"
+  }
+]' > .ic-assets.json5

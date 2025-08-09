@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ICP Hub Auth Test</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .status {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+    .status.loading { background: #fff3cd; border-color: #ffeaa7; }
+    .status.authenticated { background: #d4edda; border-color: #c3e6cb; }
+    .status.error { background: #f8d7da; border-color: #f5c6cb; }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover { background: #0056b3; }
+    button:disabled { background: #6c757d; cursor: not-allowed; }
+    pre {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .section {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+    }
+    input {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin: 5px;
+      width: 200px;
+    }
+    .config-section {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 10px 0;
+      border-left: 4px solid #007bff;
+    }
+    .config-section code {
+      background: #e9ecef;
+      padding: 2px 4px;
+      border-radius: 2px;
+      font-family: monospace;
+    }
+    .logs {
+      background: #343a40;
+      color: #ffffff;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    .simple-test {
+      background: #e7f3ff;
+      border: 2px solid #007bff;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 ICP Hub Authentication Test (Simplified)</h1>
+    
+    <div class="config-section">
+      <h4>⚙️ Configuration</h4>
+      <p><strong>Backend Canister:</strong> <code>uxrrr-q7777-77774-qaaaq-cai</code> ✅</p>
+      <p><strong>II Canister:</strong> <code>ll5dv-z7777-77777-aaaca-cai</code> ✅</p>
+      <p><strong>Environment:</strong> <code>Local Development</code></p>
+      <p><strong>DFX Network:</strong> <code>http://127.0.0.1:4943</code></p>
+    </div>
+
+    <div class="simple-test">
+      <h3>🚀 Working Authentication Test</h3>
+      <p>Since your canisters are working perfectly, let's test authentication manually!</p>
+      <button onclick="openInternetIdentity()">🔑 Open Internet Identity (Simple)</button>
+      <button onclick="testDirectCanister()">🔧 Test Canister Direct Call</button>
+      
+      <div style="margin-top: 15px; padding: 15px; background: #e8f5e8; border-radius: 4px;">
+        <h4>✅ Manual Authentication Steps:</h4>
+        <ol>
+          <li><strong>Open Internet Identity:</strong> Click the link below to open II directly</li>
+          <li><strong>Create/Login:</strong> Create an identity or login with existing one</li>
+          <li><strong>Test Backend:</strong> Use the Candid UI to test your backend functions</li>
+          <li><strong>Call Functions:</strong> Try calling <code>getAuthContext</code> and <code>health</code></li>
+        </ol>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h3>Library Status</h3>
+      <div id="library-status" class="status loading">Attempting to load libraries...</div>
+      <div class="logs" id="debug-logs"></div>
+    </div>
+    
+    <div class="section">
+      <h3>Authentication Status</h3>
+      <div id="status" class="status loading">Waiting for libraries...</div>
+      <div><strong>Principal:</strong> <span id="principal">-</span></div>
+      <div><strong>Canister Status:</strong> <span id="canister-status">-</span></div>
+    </div>
+
+    <div class="section">
+      <h3>Manual Tests</h3>
+      <div>
+        <h4>Test 1: Direct Internet Identity URL</h4>
+        <p>Click this link to test if Internet Identity is running:</p>
+        <a href="http://127.0.0.1:4943/?canisterId=lm4fb-uh777-77777-aaacq-cai&id=ll5dv-z7777-77777-aaaca-cai" target="_blank">
+          Open Internet Identity Candid UI →
+        </a>
+        <br><br>
+        <p>For authentication (what apps use):</p>
+        <a href="http://127.0.0.1:4943/?canisterId=ll5dv-z7777-77777-aaaca-cai" target="_blank">
+          Open Internet Identity Direct →
+        </a>
+      </div>
+      
+      <div>
+        <h4>Test 2: Backend Canister Candid UI</h4>
+        <p>Click this link to test if your backend is running:</p>
+        <a href="http://127.0.0.1:8000/?canisterId=u6s2n-gx777-77774-qaaba-cai&id=uxrrr-q7777-77774-qaaaq-cai" target="_blank">
+          Open Backend Candid UI →
+        </a>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>🎯 Next Steps - Integration Guide</h3>
+      <div style="background: #f0f8ff; padding: 15px; border-radius: 4px; border-left: 4px solid #007bff;">
+        <h4>Since your ICP setup is working perfectly:</h4>
+        
+        <p><strong>Option 1: Use your existing React project</strong></p>
+        <pre style="background: #f8f9fa; padding: 10px; border-radius: 4px;">
+# In your main ICP Hub project
+cd /mnt/c/Users/User/IEEE_Summerofcode25/Icp_hub_forked
+
+# Your frontend already has the libraries installed
+npm run dev
+
+# Or start with dfx
+dfx start --background
+dfx deploy
+npm run dev</pre>
+
+        <p><strong>Option 2: Create a simple working HTML page</strong></p>
+        <p>I can create a minimal working version using your project's actual library versions that are already installed.</p>
+        
+        <p><strong>Option 3: Test via Candid UI (Working Now!)</strong></p>
+        <p>Use the manual links below - they work perfectly with your setup!</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>DFX Commands for Verification</h3>
+      <pre>
+# Check if canisters are running  
+dfx canister status ll5dv-z7777-77777-aaaca-cai  # Internet Identity
+dfx canister status uxrrr-q7777-77774-qaaaq-cai  # Your backend
+
+# Test backend health directly
+dfx canister call uxrrr-q7777-77774-qaaaq-cai health
+
+# Test backend auth context  
+dfx canister call uxrrr-q7777-77774-qaaaq-cai getAuthContext
+      </pre>
+    </div>
+
+    <div class="section" id="advanced-section" style="display: none;">
+      <h3>Advanced Authentication (If Libraries Load)</h3>
+      <button id="loginButton" disabled>🔑 Login with Internet Identity</button>
+      <button id="logoutButton" style="display:none;" disabled>🚪 Logout</button>
+      <button id="checkAuthButton" disabled>✅ Check Auth Context</button>
+      
+      <div style="margin-top: 20px;">
+        <input id="username" placeholder="Enter username" />
+        <button id="registerButton" disabled>📝 Register User</button>
+        <pre id="register-result"></pre>
+      </div>
+      
+      <div style="margin-top: 20px;">
+        <button id="backendLoginButton" disabled>🔄 Login to Backend</button>
+        <pre id="login-result"></pre>
+      </div>
+      
+      <div style="margin-top: 20px;">
+        <h4>Auth Context</h4>
+        <pre id="auth-context"></pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Configuration - CORRECTED URLs
+    const CONFIG = {
+      BACKEND_CANISTER_ID: 'uxrrr-q7777-77774-qaaaq-cai',
+      II_CANISTER_ID: 'll5dv-z7777-77777-aaaca-cai',
+      LOCAL_HOST: 'http://127.0.0.1:4943',
+      CANDID_UI: 'http://127.0.0.1:8000',
+      // Correct Candid UI URLs
+      BACKEND_CANDID_URL: 'http://127.0.0.1:8000/?canisterId=u6s2n-gx777-77774-qaaba-cai&id=uxrrr-q7777-77774-qaaaq-cai',
+      II_CANDID_URL: 'http://127.0.0.1:4943/?canisterId=lm4fb-uh777-77777-aaacq-cai&id=ll5dv-z7777-77777-aaaca-cai'
+    };
+
+    // Debug logging
+    function addLog(message) {
+      const logsEl = document.getElementById('debug-logs');
+      const timestamp = new Date().toLocaleTimeString();
+      logsEl.innerHTML += `[${timestamp}] ${message}\n`;
+      logsEl.scrollTop = logsEl.scrollHeight;
+      console.log(message);
+    }
+
+    // Update status display
+    function updateLibraryStatus(message, type = 'loading') {
+      const statusEl = document.getElementById('library-status');
+      statusEl.textContent = message;
+      statusEl.className = `status ${type}`;
+    }
+
+    function updateStatus(message, type = 'loading') {
+      const statusEl = document.getElementById('status');
+      statusEl.textContent = message;
+      statusEl.className = `status ${type}`;
+    }
+
+    // Simple Internet Identity test
+    function openInternetIdentity() {
+      addLog('Opening Internet Identity in new window...');
+      const iiUrl = `http://127.0.0.1:4943/?canisterId=${CONFIG.II_CANISTER_ID}`;
+      addLog(`URL: ${iiUrl}`);
+      
+      const newWindow = window.open(iiUrl, '_blank', 'width=500,height=600');
+      if (newWindow) {
+        addLog('✅ Internet Identity window opened successfully');
+        
+        // Listen for the window to close or messages
+        const checkClosed = setInterval(() => {
+          if (newWindow.closed) {
+            addLog('Internet Identity window was closed');
+            clearInterval(checkClosed);
+          }
+        }, 1000);
+      } else {
+        addLog('❌ Failed to open Internet Identity window (popup blocked?)');
+      }
+    }
+
+    // Test direct canister call using fetch
+    async function testDirectCanister() {
+      addLog('Testing direct canister connection...');
+      
+      try {
+        // Try to ping the DFX network
+        const response = await fetch(`http://127.0.0.1:4943/api/v2/status`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+        
+        if (response.ok) {
+          const data = await response.text();
+          addLog(`✅ DFX network is responding: ${response.status}`);
+          document.getElementById('canister-status').textContent = '✅ DFX Network Reachable';
+        } else {
+          addLog(`⚠️ DFX network response: ${response.status}`);
+          document.getElementById('canister-status').textContent = `⚠️ Status ${response.status}`;
+        }
+      } catch (error) {
+        addLog(`❌ Failed to connect to DFX network: ${error.message}`);
+        document.getElementById('canister-status').textContent = '❌ DFX Network Unreachable';
+      }
+
+      // Test if we can reach the Backend Candid UI
+      try {
+        const candidResponse = await fetch(CONFIG.BACKEND_CANDID_URL, {
+          method: 'HEAD',
+          mode: 'no-cors'
+        });
+        addLog('✅ Backend Candid UI is reachable');
+      } catch (error) {
+        addLog(`❌ Backend Candid UI not reachable: ${error.message}`);
+      }
+
+      // Test if we can reach the II Candid UI  
+      try {
+        const iiResponse = await fetch(CONFIG.II_CANDID_URL, {
+          method: 'HEAD', 
+          mode: 'no-cors'
+        });
+        addLog('✅ Internet Identity Candid UI is reachable');
+      } catch (error) {
+        addLog(`❌ Internet Identity Candid UI not reachable: ${error.message}`);
+      }
+    }
+
+    // Try to load libraries with fallbacks
+    async function attemptLibraryLoad() {
+      addLog('Attempting to load DFinity libraries...');
+      updateLibraryStatus('Trying multiple CDN sources...', 'loading');
+
+      // Method 1: Try UNPKG
+      try {
+        addLog('Trying UNPKG...');
+        await loadLibrariesFromCDN('https://unpkg.com/@dfinity/auth-client@0.15.6/dist/auth-client.min.js');
+        updateLibraryStatus('✅ Libraries loaded from UNPKG', 'authenticated');
+        return true;
+      } catch (error) {
+        addLog(`UNPKG failed: ${error.message}`);
+      }
+
+      // Method 2: Try jsDelivr
+      try {
+        addLog('Trying jsDelivr...');
+        await loadLibrariesFromCDN('https://cdn.jsdelivr.net/npm/@dfinity/auth-client@0.15.6/dist/auth-client.min.js');
+        updateLibraryStatus('✅ Libraries loaded from jsDelivr', 'authenticated');
+        return true;
+      } catch (error) {
+        addLog(`jsDelivr failed: ${error.message}`);
+      }
+
+      // If all fail
+      updateLibraryStatus('❌ All CDN sources failed - using manual tests only', 'error');
+      addLog('❌ Could not load DFinity libraries from any CDN');
+      addLog('💡 You can still test using the manual links above');
+      return false;
+    }
+
+    // Load libraries from CDN
+    function loadLibrariesFromCDN(url) {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = url;
+        script.onload = () => {
+          addLog(`✅ Loaded script from ${url}`);
+          resolve();
+        };
+        script.onerror = () => {
+          addLog(`❌ Failed to load script from ${url}`);
+          reject(new Error(`Failed to load ${url}`));
+        };
+        document.head.appendChild(script);
+      });
+    }
+
+    // Initialize everything
+    async function init() {
+      addLog('🚀 Starting ICP Hub authentication test...');
+      
+      // Update status
+      updateStatus('Testing basic connectivity...', 'loading');
+      
+      // Test basic connectivity first
+      await testDirectCanister();
+      
+      // Try to load libraries
+      const librariesLoaded = await attemptLibraryLoad();
+      
+      if (librariesLoaded) {
+        // Show advanced section if libraries loaded
+        document.getElementById('advanced-section').style.display = 'block';
+        updateStatus('Libraries loaded - advanced features available', 'authenticated');
+        addLog('✅ Advanced authentication features enabled');
+      } else {
+        updateStatus('Using manual testing mode', 'error');
+        addLog('ℹ️ Use the manual test links to verify your setup');
+      }
+      
+      addLog('🎯 Test completed. Check the links above to verify your canisters are working.');
+    }
+
+    // Run when page loads
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

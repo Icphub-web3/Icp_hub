@@ -1,0 +1,37 @@
+{
+  "name": "icp-hub",
+  "version": "1.0.0",
+  "description": "Decentralized hub for Internet Computer ecosystem",
+  "main": "index.js",
+  "scripts": {
+    "start": "dfx start --background",
+    "stop": "dfx stop",
+    "deploy": "dfx deploy",
+    "build": "dfx build",
+    "test": "dfx test",
+    "frontend": "cd src && npm start",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,md}"
+  },
+  "keywords": ["icp", "internet-computer", "blockchain", "web3"],
+  "author": "Icphub-web3",
+  "license": "MIT",
+  "dependencies": {
+    "@dfinity/agent": "^0.15.0",
+    "@dfinity/candid": "^0.15.0",
+    "@dfinity/principal": "^0.15.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.0",
+    "axios": "^1.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^4.9.0",
+    "eslint": "^8.0.0",
+    "prettier": "^2.8.0",
+    "@vitejs/plugin-react": "^3.1.0",
+    "vite": "^4.1.0"
+  }
+}
