@@ -1,115 +1,66 @@
-# OPENKEYHUB
+OPENKEYHUB
+OPENKEYHUB is the world’s first truly decentralized, multichain, and AI-powered development platform.
+Our mission: empower developers, DAOs, and enterprises to build, govern, and fund open-source projects—without gatekeepers, with full transparency, and with on-chain incentives.
 
-**OPENKEYHUB** is a comprehensive multichain development platform designed to revolutionize Web3 development by providing seamless integration across multiple blockchain networks. Built with modern web technologies and powered by the Internet Computer Protocol (ICP), OPENKEYHUB serves as a unified hub for developers to build, deploy, and manage decentralized applications across Ethereum, Internet Computer, Polygon, BSC, Avalanche, and other leading blockchain ecosystems.
+🚀 Vision
+OpenKEHub is more than a dev tool—it’s a movement.
+We’re building a censorship-resistant, incentive-aligned, and agent-augmented hub for the next era of open-source collaboration.
+Join us to shape the future of Web3, where every contribution is rewarded, every project is governed by its community, and every chain is just a click away.
 
-## Overview
+🔑 Key Features
+Multichain Support: Seamlessly interact with Ethereum, ICP, Polygon, BSC, Avalanche, and more.
+Unified Dev Experience: One interface for building, deploying, and managing dApps across chains.
+On-Chain Governance: Integrated DAOs for proposals, voting, and project management.
+Token Incentives: Built-in tokenomics for rewarding contributors and automating bounties.
+AI/Agent Integration: Optional AI-powered code review, PR suggestions, and automation.
+Enterprise-Grade Security: Smart contract-based permissions and audit trails.
+Open Source & Extensible: MIT-licensed, modular, and community-driven.
+🏗️ Technical Architecture
+Frontend: React 18, Vite, React Router, Lucide React, CSS Modules
+Backend: Internet Computer Protocol (ICP) Motoko canisters, Node.js microservices
+Smart Contracts: Solidity (EVM), Motoko (ICP)
+DevOps: GitHub Actions CI/CD, automated testing, and deployment
+AI/Agents: Continue.dev, CodeRabbit, TabNine (optional)
+⚡ Quickstart
+Prerequisites
+Node.js: v16.0 or higher
+npm: v7.0 or higher
+Git
+Modern Browser: Chrome, Firefox, Safari, or Edge
+Installation
+Environment Setup
+Create a .env file in icp-hub-frontend:
 
-OPENKEYHUB addresses the fragmentation challenges in the Web3 development ecosystem by offering a single, intuitive interface that connects disparate blockchain networks. The platform enables developers to leverage the unique capabilities of different blockchains while maintaining consistency in their development workflow.
+Start the App
+Visit http://localhost:5173 in your browser.
 
-## Frontend Installation and Setup
+🧪 Testing
+All tests: npm test
+Contract tests: npm run test:contracts
+Frontend tests: npm run test:frontend
+E2E tests: npm run test:e2e
+🤝 Collaborators Guide
+Fork & Clone:
+Fork the repo, then:
 
-### Prerequisites
+Set Up Remotes:
 
-Ensure your development environment meets the following requirements:
+Branching:
 
-- **Node.js**: Version 16.0 or higher
-- **npm**: Version 7.0 or higher (comes with Node.js)
-- **Git**: For version control
-- **Modern Web Browser**: Chrome, Firefox, Safari, or Edge
+Work on a feature branch from dev.
+Use Conventional Commits.
+Open PRs to dev and request review.
+Code Quality:
 
-### Installation Steps
+Run npm run lint and all tests before PR.
+Update docs for new features.
+Communication:
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/Icphub-web3/Icp_hub.git
-   cd Icp_hub
-   ```
+GitHub Discussions
+Discord (link coming soon)
+Advanced:
 
-2. **Navigate to Frontend Directory**
-   ```bash
-   cd src/icp-hub-frontend
-   ```
-
-3. **Install Dependencies**
-   ```bash
-   npm install
-   ```
-
-4. **Configure Environment Variables**
-   
-   Create a `.env` file in the `src/icp-hub-frontend` directory:
-   ```bash
-   touch .env
-   ```
-   
-   Add the following configuration:
-   ```env
-   VITE_DFX_NETWORK=local
-   VITE_BACKEND_CANISTER_ID=your_backend_canister_id
-   VITE_INTERNET_IDENTITY_CANISTER_ID=your_internet_identity_canister_id
-   ```
-
-5. **Start the Development Server**
-   ```bash
-   npm run dev
-   ```
-
-6. **Access the Application**
-   
-   Open your web browser and navigate to:
-   ```
-   http://localhost:5173
-   ```
-
-### Development Commands
-
-- **Start Development Server**: `npm run dev`
-- **Build for Production**: `npm run build`
-- **Preview Production Build**: `npm run preview`
-- **Run Linting**: `npm run lint`
-
-### Browser Compatibility
-
-OPENKEY frontend supports all modern browsers with ES6+ compatibility:
-
-- Chrome 88+
-- Firefox 78+
-- Safari 14+
-- Edge 88+
-
-### Troubleshooting
-
-**Port Already in Use**
-If port 5173 is occupied, Vite will automatically use the next available port. Check the terminal output for the correct URL.
-
-**Module Resolution Errors**
-Ensure all dependencies are installed by running:
-```bash
-rm -rf node_modules package-lock.json
-npm install
-```
-
-**Environment Variable Issues**
-Verify that your `.env` file is properly formatted and located in the `src/icp-hub-frontend` directory.
-
-## Technical Architecture
-
-The OPENKEY frontend is built using:
-
-- **React 18**: For component-based user interface development
-- **Vite**: For fast development and optimized production builds
-- **React Router**: For client-side routing and navigation
-- **Lucide React**: For consistent iconography
-- **CSS Modules**: For component-scoped styling
-
-## Contributing
-
-We welcome contributions to improve OPENKEY. Please review our contribution guidelines and submit pull requests through our GitHub repository.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Support
-
-For technical support and documentation, please visit our [GitHub repository](https://github.com/Icphub-web3/Icp_hub) or contact our development team.
+Use Premium.code-profile for a pre-configured dev environment.
+🌐 Community & Links
+GitHub Issues
+Project Board
