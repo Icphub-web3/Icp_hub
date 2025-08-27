@@ -6,8 +6,8 @@ export interface FileNode {
   path: string;
   name: string;
   isFolder: boolean;
-  size: number;
-  lastModified: string | number;
+  size?: number;
+  lastModified?: string | number;
   children?: FileNode[];
 }
 
@@ -39,27 +39,30 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
     fetchFiles();
   }, [repositoryId, currentPath, refreshTrigger]);
 
+  // UPDATED: fetchFiles method
   const fetchFiles = async () => {
     setLoading(true);
     setError(null);
     
     try {
-      // Call the API to get file tree
-      const result = await apiService.getFileTree(repositoryId, currentPath || null);
+      const result = await apiService.getFileTree(repositoryId, currentPath || '');
       
       if (result.success && result.data) {
-        // Convert the backend response to FileNode[] format
-        const fileNodes = result.data.nodes.map((node: any) => ({
-          path: node.path,
-          name: node.name,
-          isFolder: node.isFolder,
-          size: node.size || 0,
-          lastModified: node.lastModified || Date.now(),
-          children: node.children || []
-        }));
-        setFiles(fileNodes);
+        // The data should already be in tree format from backend
+        if (result.data.nodes) {
+          const mappedNodes = result.data.nodes.map(node => ({
+              ...node,
+              // Ensure lastModified has a value
+              lastModified: node.lastModified || Date.now()
+            }));
+            setFiles(mappedNodes);
+        } else if (Array.isArray(result.data)) {
+          setFiles(result.data);
+        } else {
+          setFiles([]);
+        }
       } else {
-        setError('Failed to load files: ' + apiService.getErrorMessage(result.error));
+        setError('Failed to load files: ' + (result.error || 'Unknown error'));
       }
     } catch (err) {
       console.error('Error fetching files:', err);
@@ -69,31 +72,44 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
     }
   };
 
-  // Build tree structure from flat file list
+  // UPDATED: buildTree function
   const buildTree = (files: FileNode[]): FileNode[] => {
+    // If files already have children, they're already in tree format
+    if (files.some(f => f.children && f.children.length > 0)) {
+      return files;
+    }
+    
+    // Otherwise, build tree from flat list
     const tree: FileNode[] = [];
     const map: { [key: string]: FileNode } = {};
-
-    // First pass: create all nodes
-    files.forEach(file => {
-      map[file.path] = { ...file, children: [] };
+    
+    // Sort files to ensure parents come before children
+    const sortedFiles = [...files].sort((a, b) => {
+      const depthA = a.path.split('/').length;
+      const depthB = b.path.split('/').length;
+      return depthA - depthB;
     });
-
-    // Second pass: build tree structure
-    files.forEach(file => {
+    
+    sortedFiles.forEach(file => {
+      const node = { ...file, children: file.isFolder ? [] : undefined };
+      map[file.path] = node;
+      
       const parts = file.path.split('/');
-      if (parts.length === 1) {
-        // Root level file/folder
-        tree.push(map[file.path]);
+      if (parts.length === 1 || currentPath === '') {
+        // Root level
+        tree.push(node);
       } else {
-        // Find parent and add as child
+        // Find parent
         const parentPath = parts.slice(0, -1).join('/');
-        if (map[parentPath]) {
-          map[parentPath].children?.push(map[file.path]);
+        if (map[parentPath] && map[parentPath].children) {
+          map[parentPath].children!.push(node);
+        } else {
+          // If parent doesn't exist, add to root
+          tree.push(node);
         }
       }
     });
-
+    
     return tree;
   };
 
@@ -130,11 +146,29 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
     setContextMenu(null);
   };
 
-  // Handler for creating a new folder
-  const handleCreateFolder = (parentPath: string) => {
-    // For now, just log - this would open a modal in a real implementation
-    console.log('Create folder in', parentPath);
-    // You would typically implement a modal to get the folder name
+  // UPDATED: handleCreateFolder function
+  const handleCreateFolder = async (parentPath: string) => {
+    // This should trigger the CreateFolderModal
+    // The actual creation is handled by the parent component
+    if (onFileUpload) {
+      onFileUpload(); // This triggers the modal in parent
+    }
+  };
+
+  // ADDED: createNewFolder function
+  const createNewFolder = async (folderName: string) => {
+    try {
+      const result = await apiService.createFolder(repositoryId, currentPath, folderName);
+      if (result.success) {
+        // Refresh the file list
+        await fetchFiles();
+      } else {
+        setError('Failed to create folder: ' + result.error);
+      }
+    } catch (error) {
+      console.error('Error creating folder:', error);
+      setError('Failed to create folder');
+    }
   };
 
   // Handler for uploading files
@@ -152,8 +186,8 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
     // Implement confirmation and deletion logic
   };
 
-  const formatFileSize = (bytes: number): string => {
-    if (bytes === 0) return '0 B';
+  const formatFileSize = (bytes?: number): string => {
+    if (bytes === undefined || bytes === 0) return '0 B';
     const k = 1024;
     const sizes = ['B', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));

@@ -69,35 +69,38 @@ class FileService {
     }
   }
 
-  /**
+    /**
    * Create a new folder
    */
-  async createFolder(repositoryId: string, folderPath: string, folderName: string): Promise<FileEntry> {
+  async createFolder(repositoryId: string, parentPath: string, folderName: string): Promise<FileEntry> {
     try {
       if (!apiService.actor) {
         await apiService.init()
       }
 
-      console.log('Creating folder:', { repositoryId, folderPath, folderName })
+      const result = await apiService.createFolder(repositoryId, parentPath, folderName);
       
-      // For now, return mock data since backend method might not exist
-      const mockEntry: FileEntry = {
-        path: folderPath ? `${folderPath}/${folderName}` : folderName,
+      if (result.success && result.data) {
+        return this.transformFileEntry(result.data);
+      }
+      
+      // Create the folder entry for response
+      const fullPath = parentPath ? `${parentPath}/${folderName}` : folderName;
+      return {
+        path: fullPath,
         name: folderName,
         content: new Uint8Array(),
         size: 0,
-        hash: Math.random().toString(36),
+        hash: '',
         version: 1,
         lastModified: Date.now(),
         author: apiService.getPrincipal()?.toString() || 'anonymous',
         isFolder: true,
         commitMessage: `Created folder ${folderName}`
-      }
-      
-      return mockEntry
+      };
     } catch (error) {
-      console.error('Create folder error:', this.getErrorMessage(error))
-      throw error
+      console.error('Create folder error:', error);
+      throw error;
     }
   }
 
@@ -105,72 +108,40 @@ class FileService {
    * Upload a file to a specific folder
    */
   async uploadFile(
-    repositoryId: string, 
-    file: File, 
-    folderPath?: string,
-    commitMessage?: string,
-    onProgress?: (progress: FileUploadProgress) => void
-  ): Promise<FileEntry> {
-    try {
-      if (!apiService.actor) {
-        await apiService.init()
-      }
-
-      // Read file as array buffer
-      const arrayBuffer = await this.readFileAsArrayBuffer(file, onProgress)
-      const content = Array.from(new Uint8Array(arrayBuffer))
-      
-      // Prepare file path
-      const path = folderPath ? `${folderPath}/${file.name}` : file.name
-      
-      const uploadRequest: UploadFileRequest = {
-        repositoryId,
-        path,
-        content,
-        commitMessage: commitMessage || `Upload ${file.name}`,
-        branch: 'main'
-      }
-
-      console.log('Uploading file:', { repositoryId, path, size: content.length })
-      
-      const result = await apiService.uploadFile(uploadRequest)
-      
-      if (result.success && result.data) {
-        return this.transformFileEntry(result.data)
-      } else {
-        // Return mock data for development
-        const mockEntry: FileEntry = {
-          path,
-          name: file.name,
-          content: new Uint8Array(content),
-          size: file.size,
-          hash: Math.random().toString(36),
-          version: 1,
-          lastModified: Date.now(),
-          author: apiService.getPrincipal()?.toString() || 'anonymous',
-          isFolder: false,
-          mimeType: file.type,
-          commitMessage: uploadRequest.commitMessage
+      repositoryId: string, 
+      file: File, 
+      folderPath?: string,
+      commitMessage?: string,
+      onProgress?: (progress: FileUploadProgress) => void
+    ): Promise<FileEntry> {
+      try {
+        if (!apiService.actor) {
+          await apiService.init()
         }
-        return mockEntry
+
+        const arrayBuffer = await this.readFileAsArrayBuffer(file, onProgress);
+        const content = Array.from(new Uint8Array(arrayBuffer));
+        const path = folderPath ? `${folderPath}/${file.name}` : file.name;
+        
+        const uploadRequest: UploadFileRequest = {
+          repositoryId,
+          path,
+          content,
+          commitMessage: commitMessage || `Upload ${file.name}`,
+          branch: 'main'
+        };
+
+        const result = await apiService.uploadFile(uploadRequest);
+        
+        if (result.success && result.data) {
+          return this.transformFileEntry(result.data);
+        }
+        
+        throw new Error('Upload failed: ' + (result.error || 'Unknown error'));
+      } catch (error) {
+        console.error('Upload file error:', error);
+        throw error;
       }
-    } catch (error) {
-      console.error('Upload file error:', this.getErrorMessage(error))
-      // Return mock data instead of throwing
-      const mockEntry: FileEntry = {
-        path: folderPath ? `${folderPath}/${file.name}` : file.name,
-        name: file.name,
-        content: new Uint8Array(),
-        size: file.size,
-        hash: Math.random().toString(36),
-        version: 1,
-        lastModified: Date.now(),
-        author: 'anonymous',
-        isFolder: false,
-        mimeType: file.type
-      }
-      return mockEntry
-    }
   }
 
   /**

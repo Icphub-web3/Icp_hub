@@ -17,8 +17,8 @@ interface FileNode {
   path: string
   name: string
   isFolder: boolean
-  size: number
-  lastModified: string | number
+  size?: number
+  lastModified?: string | number
   children?: FileNode[]
 }
 

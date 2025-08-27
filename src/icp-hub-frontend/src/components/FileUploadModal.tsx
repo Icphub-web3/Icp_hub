@@ -28,7 +28,9 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null)
   const dropZoneRef = useRef<HTMLDivElement>(null)
 
-  const handleDrag = useCallback((e: React.DragEvent) => {
+  if (!isOpen) return null
+
+  const handleDrag = (e: React.DragEvent) => {
     e.preventDefault()
     e.stopPropagation()
     if (e.type === 'dragenter' || e.type === 'dragover') {
@@ -36,9 +38,9 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
     } else if (e.type === 'dragleave') {
       setDragActive(false)
     }
-  }, [])
+  }
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
+  const handleDrop = (e: React.DragEvent) => {
     e.preventDefault()
     e.stopPropagation()
     setDragActive(false)
@@ -51,7 +53,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
       }))
       setFiles(prev => [...prev, ...newFiles])
     }
-  }, [])
+  }
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -99,10 +101,11 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
     setIsUploading(true)
     
     try {
+      // Extract just the File objects for upload
       const fileList = files.map(f => f.file)
       await onUpload(fileList)
       
-      // Reset form
+      // Reset form after successful upload
       setFiles([])
       setCommitMessage('')
       onClose()
@@ -163,8 +166,6 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
         return '📄'
     }
   }
-
-  if (!isOpen) return null
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -229,6 +230,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
                     className="remove-file-btn"
                     onClick={() => removeFile(index)}
                     type="button"
+                    disabled={isUploading}
                   >
                     ✕
                   </button>
@@ -247,6 +249,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
               placeholder="Describe the changes you're uploading..."
               rows={3}
               required
+              disabled={isUploading}
             />
           </div>
 

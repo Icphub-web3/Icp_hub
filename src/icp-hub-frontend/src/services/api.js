@@ -1136,6 +1136,73 @@ class ApiService {
       return { success: false, error: { InternalError: error.message } }
     }
   }
+
+  async getFileTree(repositoryId, path = null) {
+    try {
+      if (!this.actor) {
+        await this.init();
+      }
+      
+      const result = await this.actor.getFileTree(repositoryId, path || '');
+      return {
+        success: true,
+        data: {
+          nodes: result.Ok ? result.Ok.files : []
+        }
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  }
+
+  async createFolder(repositoryId, parentPath, folderName) {
+    try {
+      if (!this.actor) {
+        await this.init();
+      }
+      
+      const fullPath = parentPath ? `${parentPath}/${folderName}` : folderName;
+      const result = await this.actor.createFolder(repositoryId, fullPath);
+      
+      return {
+        success: result.Ok !== undefined,
+        data: result.Ok
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  }
+
+  async uploadFile(request) {
+    try {
+      if (!this.actor) {
+        await this.init();
+      }
+      
+      const result = await this.actor.uploadFile(
+        request.repositoryId,
+        request.path,
+        request.content,
+        request.commitMessage
+      );
+      
+      return {
+        success: result.Ok !== undefined,
+        data: result.Ok
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  }
 }
 
 // Create and export a singleton instance
