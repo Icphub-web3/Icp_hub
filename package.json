@@ -10,7 +10,16 @@
     "dev:backend": "cd backend && npm run dev"
   },
   "devDependencies": {
-    "concurrently": "^9.2.0"
+    "@metamask/providers": "^22.1.0",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.1.0",
+    "@playwright/test": "^1.55.0",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "chai": "^6.0.1",
+    "concurrently": "^9.2.0",
+    "hardhat": "^3.0.1",
+    "jest": "^30.1.0",
+    "playwright": "^1.55.0"
   },
   "dependencies": {
     "@dfinity/agent": "3.2.2",

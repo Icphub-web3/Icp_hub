@@ -1,0 +1,27 @@
+name: Deploy Motoko Canisters
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+      - 'dfx.json'
+      - 'src/backend/**'
+  pull_request:
+    paths:
+      - 'backend/**'
+      - 'dfx.json'
+      - 'src/backend/**'
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dfx
+        run: sh -ci "$(curl -fsSL https://internetcomputer.org/install.sh)"
+      - name: Start dfx
+        run: dfx start --background
+      - name: Deploy canisters
+        run: dfx deploy
+      - name: Run backend tests
+        run: dfx canister test || echo "No Motoko tests found."

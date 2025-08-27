@@ -1,0 +1,29 @@
+name: Frontend CI
+
+on:
+  push:
+    paths:
+      - 'frontend/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+  pull_request:
+    paths:
+      - 'frontend/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run smart contract tests
+        run: pnpm --filter ./frontend test:contracts
+      - name: Run frontend tests
+        run: pnpm --filter ./frontend test
+      - name: Build frontend
+        run: pnpm --filter ./frontend build

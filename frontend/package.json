@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "test": "jest --env=jsdom --setupFiles ./jest.setup.js",
     "test:coverage": "jest --env=jsdom --setupFiles ./jest.setup.js --coverage",
-    "test:e2e": "cypress run"
+    "test:e2e": "cypress run",
+    "test:contracts": "hardhat test",
+    "test:contracts:gas": "hardhat test --gas"
   },
   "dependencies": {
     "@dfinity/agent": "3.2.2",
@@ -26,6 +28,8 @@
   "devDependencies": {
     "@babel/preset-env": "^7.28.3",
     "@babel/preset-react": "^7.27.1",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-waffle": "^2.0.6",
     "@tailwindcss/postcss": "^4.1.12",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
@@ -40,7 +44,9 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
-    "ethers": "^6.15.0",
+    "ethers": "^5.8.0",
+    "hardhat": "^2.26.3",
+    "hardhat-gas-reporter": "^2.3.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^30.0.5",
     "jest-environment-jsdom": "^30.0.5",

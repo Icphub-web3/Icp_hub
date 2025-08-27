@@ -1,0 +1,21 @@
+name: E2E Tests
+
+on: [push, pull_request]
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: pnpm install
+      - name: Install Playwright
+        run: pnpm exec playwright install --with-deps
+      - name: Start backend
+        run: dfx start --background && dfx deploy
+      - name: Start frontend
+        run: pnpm --filter ./frontend run dev &
+      - name: Wait for frontend
+        run: npx wait-on http://localhost:5173
+      - name: Run E2E tests
+        run: pnpm exec playwright test e2e/

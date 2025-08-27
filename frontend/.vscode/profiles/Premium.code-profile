@@ -1,0 +1,71 @@
+{
+  "$schema": "vscode://schemas/profile",
+  "name": "Cost-Free Full-Stack Web3 Dev Agent Setup (Pop!_OS)",
+  "extensions": {
+    "recommendations": [
+      "ms-vscode.vscode-typescript-next",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "usernamehw.errorlens",
+      "streetsidesoftware.code-spell-checker",
+      "eamodio.gitlens",
+      "github.vscode-pull-request-github",
+      "mhutchie.git-graph",
+      "juanblanco.solidity",
+      "nomicfoundation.hardhat-solidity",
+      "tintinweb.solidity-visual-auditor",
+      "firsttris.vscode-jest-runner",
+      "origen.err",
+      "cypress-io.cypress-helper",
+      "bradlc.vscode-tailwindcss",
+      "csstools.postcss",
+      "formulahendry.auto-rename-tag",
+      "continuedev.continue",
+      "coderabbit.coderabbit",
+      "tabnine.tabnine-vscode"
+    ]
+  },
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.rulers": [80, 120],
+    "files.autoSave": "onFocusChange",
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.alwaysShowStatus": true,
+    "solidity.compileUsingRemoteVersion": "v0.8.21",
+    "solidity.packageDefaultDependenciesContractsDirectory": "contracts",
+    "solidity.packageDefaultDependenciesDirectory": "node_modules",
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "tailwindCSS.experimental.classRegex": [
+      ["tw`([^`]*)", "(?:class|className)=\\"([^\\"]*)\\""]
+    ],
+    "continue.backend": {
+      "ollama": {
+        "model": "mistral",
+        "url": "http://localhost:11434"
+      }
+    }
+  ,
+  "snippets": {
+    "javascript": {
+      "test-contract": {
+        "prefix": "testcontract",
+        "body": [
+          "describe('$1 Contract', () => {",
+          "  it('should deploy successfully', async () => {",
+          "    const Contract = await ethers.getContractFactory('$1');",
+          "    const contract = await Contract.deploy();",
+          "    await contract.deployed();",
+          "    expect(contract.address).to.properAddress;",
+          "  });",
+          "});"
+        ],
+        "description": "Quick Hardhat contract test boilerplate"
+      }
+    }
+  }
+}

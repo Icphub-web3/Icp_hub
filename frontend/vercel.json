@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" }
+  ],
+  "builds": [
+    { "src": "src/pages/Home.jsx", "use": "@vercel/node" },
+    { "src": "supabase-demo-backend.cjs", "use": "@vercel/node" }
+  ]
+}
