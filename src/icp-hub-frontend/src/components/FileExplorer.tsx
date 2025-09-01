@@ -36,41 +36,38 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
 
   // Fetch files when component mounts or dependencies change
   useEffect(() => {
+    const fetchFiles = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const result = await apiService.getFileTree(repositoryId, currentPath || '');
+        if (result.success && result.data) {
+          if (result.data.nodes) {
+            const mappedNodes = result.data.nodes.map(node => ({
+              ...node,
+              lastModified: node.lastModified || Date.now()
+            }));
+            setFiles(mappedNodes);
+          } else if (Array.isArray(result.data)) {
+            setFiles(result.data);
+          } else {
+            setFiles([]);
+          }
+        } else {
+          setError('Failed to load files: ' + (result.error || 'Unknown error'));
+        }
+      } catch (err) {
+        console.error('Error fetching files:', err);
+        setError(err instanceof Error ? err.message : 'Unknown error loading files');
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchFiles();
   }, [repositoryId, currentPath, refreshTrigger]);
 
   // UPDATED: fetchFiles method
-  const fetchFiles = async () => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      const result = await apiService.getFileTree(repositoryId, currentPath || '');
-      
-      if (result.success && result.data) {
-        // The data should already be in tree format from backend
-        if (result.data.nodes) {
-          const mappedNodes = result.data.nodes.map(node => ({
-              ...node,
-              // Ensure lastModified has a value
-              lastModified: node.lastModified || Date.now()
-            }));
-            setFiles(mappedNodes);
-        } else if (Array.isArray(result.data)) {
-          setFiles(result.data);
-        } else {
-          setFiles([]);
-        }
-      } else {
-        setError('Failed to load files: ' + (result.error || 'Unknown error'));
-      }
-    } catch (err) {
-      console.error('Error fetching files:', err);
-      setError(err instanceof Error ? err.message : 'Unknown error loading files');
-    } finally {
-      setLoading(false);
-    }
-  };
+  // ...existing code...
 
   // UPDATED: buildTree function
   const buildTree = (files: FileNode[]): FileNode[] => {
@@ -78,38 +75,27 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
     if (files.some(f => f.children && f.children.length > 0)) {
       return files;
     }
-    
     // Otherwise, build tree from flat list
     const tree: FileNode[] = [];
     const map: { [key: string]: FileNode } = {};
-    
     // Sort files to ensure parents come before children
     const sortedFiles = [...files].sort((a, b) => {
       const depthA = a.path.split('/').length;
       const depthB = b.path.split('/').length;
       return depthA - depthB;
     });
-    
     sortedFiles.forEach(file => {
       const node = { ...file, children: file.isFolder ? [] : undefined };
       map[file.path] = node;
-      
-      const parts = file.path.split('/');
-      if (parts.length === 1 || currentPath === '') {
-        // Root level
-        tree.push(node);
-      } else {
-        // Find parent
-        const parentPath = parts.slice(0, -1).join('/');
-        if (map[parentPath] && map[parentPath].children) {
+      const parentPath = file.path.substring(0, file.path.lastIndexOf('/'));
+      if (parentPath && map[parentPath]) {
+        if (map[parentPath].children) {
           map[parentPath].children!.push(node);
-        } else {
-          // If parent doesn't exist, add to root
-          tree.push(node);
         }
+      } else {
+        tree.push(node);
       }
     });
-    
     return tree;
   };
 
@@ -147,7 +133,7 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
   };
 
   // UPDATED: handleCreateFolder function
-  const handleCreateFolder = async (_parentPath: string) => {
+  const handleCreateFolder = async () => {
     // This should trigger the CreateFolderModal
     // The actual creation is handled by the parent component
     if (onFileUpload) {
@@ -155,21 +141,7 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
     }
   };
 
-  // ADDED: createNewFolder function
-  const createNewFolder = async (folderName: string) => {
-    try {
-      const result = await apiService.createFolder(repositoryId, currentPath, folderName);
-      if (result.success) {
-        // Refresh the file list
-        await fetchFiles();
-      } else {
-        setError('Failed to create folder: ' + result.error);
-      }
-    } catch (error) {
-      console.error('Error creating folder:', error);
-      setError('Failed to create folder');
-    }
-  };
+  // ...existing code...
 
   // Handler for uploading files
   const handleUploadFile = (parentPath: string) => {
@@ -248,7 +220,7 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
       <div key={node.path} className="file-tree-node">
         <div
           className={`file-tree-item ${isSelected ? 'selected' : ''}`}
-          style={{ paddingLeft: `${level * 20 + 10}px` }}
+          data-indent={level * 20 + 10}
           onClick={(e) => handleItemClick(node, e)}
           onContextMenu={(e) => handleContextMenu(e, node)}
         >
@@ -290,7 +262,7 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
         <div className="file-explorer-actions">
           <button 
             className="btn-small"
-            onClick={() => handleCreateFolder(currentPath)}
+            onClick={handleCreateFolder}
             title="New folder"
           >
             📁+ New Folder
@@ -324,14 +296,15 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
       {contextMenu && (
         <div 
           className="context-menu"
-          style={{ top: contextMenu.y, left: contextMenu.x }}
+          data-top={contextMenu.y}
+          data-left={contextMenu.x}
         >
           {contextMenu.item.isFolder ? (
             <>
               <div 
                 className="context-menu-item"
                 onClick={() => {
-                  handleCreateFolder(contextMenu.item.path);
+                  handleCreateFolder();
                   closeContextMenu();
                 }}
               >

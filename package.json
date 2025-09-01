@@ -1,0 +1,16 @@
+{
+  "name": "icp_hub",
+  "version": "1.0.0",
+  "description": "**OPENKEYHUB** is a comprehensive multichain development platform designed to revolutionize Web3 development by providing seamless integration across multiple blockchain networks. Built with modern web technologies and powered by the Internet Computer Protocol (ICP), OPENKEYHUB serves as a unified hub for developers to build, deploy, and manage decentralized applications across Ethereum, Internet Computer, Polygon, BSC, Avalanche, and other leading blockchain ecosystems.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0"
+}
