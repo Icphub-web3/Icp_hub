@@ -3,7 +3,7 @@ import Time "mo:base/Time";
 import Principal "mo:base/Principal";
 
 // Basic test actor that verifies core functionality
-actor BasicTest {
+persistent actor BasicTest {
   
   // Test basic canister functionality
   public func testBasicFunctionality() : async Bool {

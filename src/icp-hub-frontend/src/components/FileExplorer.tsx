@@ -147,7 +147,7 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
   };
 
   // UPDATED: handleCreateFolder function
-  const handleCreateFolder = async (parentPath: string) => {
+  const handleCreateFolder = async (_parentPath: string) => {
     // This should trigger the CreateFolderModal
     // The actual creation is handled by the parent component
     if (onFileUpload) {

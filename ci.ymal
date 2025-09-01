@@ -1,0 +1,57 @@
+{
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8000"
+    },
+    "testnet": {
+      "providers": [
+        "https://icp0.io"
+      ]
+    }
+  }
+  // ...other config...
+}
+
+name: IC Project CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # Install Node.js, npm, and dfx
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install DFX
+        run: |
+          curl -o- https://sdk.dfinity.org/install.sh | bash
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      # Install dependencies and build frontend
+      - name: Install frontend dependencies
+        run: |
+          cd src/icp-hub-frontend
+          npm install
+          npm run build
+
+      # Build Motoko backend
+      - name: Build Motoko canisters
+        run: |
+          dfx start --background
+          dfx build
+          dfx stop
+
+      # Run tests (customize for your setup)
+      - name: Run Motoko tests
+        run: |
+          for f in test/*.test.mo; do moc --package base deps/base "$f" -r; done
