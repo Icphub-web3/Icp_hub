@@ -2,4 +2,4 @@ name: docs
 version: 'master'
 asciidoc:
   attributes:
-    page-repl: true@
+    page-repl: ''

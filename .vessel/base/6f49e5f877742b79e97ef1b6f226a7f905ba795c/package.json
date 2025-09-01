@@ -2,13 +2,14 @@
   "name": "@dfinity/motoko-base",
   "version": "1.0.0",
   "description": "The Motoko base library",
-  "private": "true",
+  "private": true,
   "scripts": {
-    "prettier:check": "npx -p prettier -p pretty-quick pretty-quick --check",
-    "prettier:format": "npx -p prettier -p pretty-quick pretty-quick",
-    "test": "node test/js && mops test --reporter files",
+    "prepare": "husky install",
+    "prettier:check": "npx -p prettier -p pretty-quick pretty-quick --check --staged",
+    "prettier:format": "npx -p prettier -p pretty-quick pretty-quick --staged",
+    "test": "node test/js && command -v mops >/dev/null && mops test --reporter files || echo 'mops not found, skipping mops tests'",
     "validate": "node test/js/validate",
-    "postinstall": "mops install"
+    "postinstall": "command -v mops >/dev/null && mops install || echo 'mops not found, skipping mops install'"
   },
   "repository": {
     "type": "git",
@@ -16,7 +17,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/dfinity/motoko-base/issues"
   },

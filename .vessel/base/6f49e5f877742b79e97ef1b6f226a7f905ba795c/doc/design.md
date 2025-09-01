@@ -26,7 +26,7 @@
 
 * Define type aliases for complex object or variant types or ones that are used more than once.
 
-* Also define type aliases to clarify uses of generic types for specific purposes (e
+* Also define type aliases to clarify uses of generic types for specific purposes (e.g., to document intended use — FooType for user IDs, BarType for amounts)
 
 * Do not use `T` as a type name or alias for the main type of a module.
 

@@ -12,7 +12,11 @@ edges = defaultdict(lambda: [])
 def list_deps(path):
     if path in edges:
         return
-    output = subprocess.run(["moc", "--print-deps", path], stdout=subprocess.PIPE, universal_newlines=True)
+    try:
+        output = subprocess.run(["moc", "--print-deps", path], stdout=subprocess.PIPE, universal_newlines=True, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error running moc --print-deps on {path}: {e.stderr}")
+        return
     for line in output.stdout.splitlines():
         if line == "mo:prim":
             continue

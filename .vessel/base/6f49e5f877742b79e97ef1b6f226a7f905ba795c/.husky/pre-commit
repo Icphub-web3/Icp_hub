@@ -1,4 +1,6 @@
 #!/bin/sh
+npx pretty-quick --staged --branch next
 . "$(dirname "$0")/_/husky.sh"
 
-npx pretty-quick --staged --branch next
+set -e
+npx pretty-quick --staged --no-install

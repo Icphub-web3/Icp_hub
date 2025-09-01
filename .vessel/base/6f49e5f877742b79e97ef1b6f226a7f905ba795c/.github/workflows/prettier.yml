@@ -22,8 +22,11 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - run: npm install -g npm
+        working-directory: icp-hub-frontend
       - run: npm install prettier pretty-quick
+        working-directory: icp-hub-frontend
       - run: npm run prettier:check
+        working-directory: icp-hub-frontend
 
   aggregate:
     name: format:required

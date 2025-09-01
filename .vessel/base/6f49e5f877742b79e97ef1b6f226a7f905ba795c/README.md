@@ -26,7 +26,8 @@ If you build your project using the [Vessel package manager] your package-set mo
   }
 ```
 
-The package _name_ `"base"` appears when importing its modules in Motoko (e.g., `import "mo:base/Nat"`).  The _repo_ may either be your local clone path, or this public repository url, as above.  The _version_ can be any git branch or tag name (such as `version = "moc-0.8.4"`).  There are no dependencies.  See the [Vessel package manager] docs for more details.
+
+The package _name_ `"base"` appears when importing its modules in Motoko (e.g., `import Nat "mo:base/Nat"`).  The _repo_ may either be your local clone path, or this public repository url, as above.  The _version_ can be any git branch or tag name (such as `version = "moc-0.8.4"`).  There are no dependencies.  See the [Vessel package manager] docs for more details.
 
 [Mops package manager]: https://mops.one
 
