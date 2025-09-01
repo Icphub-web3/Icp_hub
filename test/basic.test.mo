@@ -3,7 +3,7 @@ import Time "mo:base/Time";
 import Principal "mo:base/Principal";
 
 // Basic test actor that verifies core functionality
-actor BasicTest {
+persistent actor BasicTest {
   
   // Test basic canister functionality
   public func testBasicFunctionality() : async Bool {
@@ -37,7 +37,7 @@ actor BasicTest {
     try {
       let result1 = await testBasicFunctionality();
       if (result1) { passed += 1; } else { failed += 1; };
-    } catch (e) {
+    } catch (_) {
       Debug.print("❌ Basic functionality test failed");
       failed += 1;
     };
@@ -46,7 +46,7 @@ actor BasicTest {
     try {
       let result2 = await testTimeOperations();
       if (result2) { passed += 1; } else { failed += 1; };
-    } catch (e) {
+    } catch (_) {
       Debug.print("❌ Time operations test failed");
       failed += 1;
     };
@@ -55,7 +55,7 @@ actor BasicTest {
     try {
       let result3 = await testPrincipalOperations();
       if (result3) { passed += 1; } else { failed += 1; };
-    } catch (e) {
+    } catch (_) {
       Debug.print("❌ Principal operations test failed");
       failed += 1;
     };

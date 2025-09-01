@@ -1,0 +1,19 @@
+actor Auth {
+    stable var users : [Text] = [];
+
+    public func registerUser(username : Text) : async Bool {
+        if (users.contains(username)) {
+            return false;
+        };
+        users := Array.append(users, [username]);
+        return true;
+    };
+
+    public query func isRegistered(username : Text) : async Bool {
+        users.contains(username)
+    };
+
+    public query func getUsers() : async [Text] {
+        users
+    };
+}

@@ -1,0 +1,29 @@
+name: publish on mops
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - moc-*
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    timeout-minutes: 20
+    concurrency:
+      group: workflow-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ZenVoich/setup-mops@v1
+        with:
+          # The identity-pem secret must be set in GitHub repository settings under 'Actions > Secrets and variables'.
+          # If this secret is missing, the workflow will fail with an authentication error.
+          identity-pem: ${{ secrets.MOPS_IDENTITY_PEM }}
+      - run: mops install
+      - run: mops publish
