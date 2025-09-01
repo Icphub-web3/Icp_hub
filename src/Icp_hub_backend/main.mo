@@ -39,6 +39,30 @@ persistent actor ICPHub {
   type CreateRepositoryRequest = Types.CreateRepositoryRequest;
   type UploadFileRequest = Types.UploadFileRequest;
   type RegisterUserRequest = Types.RegisterUserRequest;
+
+  // Persistent state using stable var
+  stable var stableUsers : [(Principal, User)] = [];
+  stable var stableRepositories : [(Text, Repository)] = [];
+  stable var stableUsernames : [(Text, Principal)] = [];
+  stable var stableNextRepositoryId : Nat = 1;
+
+  // Upgrade hooks
+  system func pre_upgrade() {
+    stableUsers := Iter.toArray(users.entries());
+    stableRepositories := Iter.toArray(repositories.entries());
+    stableUsernames := Iter.toArray(usernames.entries());
+    stableNextRepositoryId := nextRepositoryId;
+  };
+
+  system func post_upgrade() {
+    users := HashMap.HashMap<Principal, User>(10, Principal.equal, Principal.hash);
+    for ((k, v) in stableUsers.vals()) { users.put(k, v); };
+    repositories := HashMap.HashMap<Text, Repository>(10, Text.equal, Text.hash);
+    for ((k, v) in stableRepositories.vals()) { repositories.put(k, v); };
+    usernames := HashMap.HashMap<Text, Principal>(10, Text.equal, Text.hash);
+    for ((k, v) in stableUsernames.vals()) { usernames.put(k, v); };
+    nextRepositoryId := stableNextRepositoryId;
+  };
   type UpdateRepositoryRequest = Types.UpdateRepositoryRequest;
   type MemoryStats = Types.MemoryStats;
   type RepositoryListResponse = Types.RepositoryListResponse;

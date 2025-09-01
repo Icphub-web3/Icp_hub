@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "deploy:local": "dfx deploy --network=local",
     "deploy:ic": "dfx deploy --network=ic",
-    "generate:types": "dfx generate --network=local"
+    "generate:types": "dfx generate --network=local",
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "dependencies": {
     "@dfinity/agent": "^1.0.0",

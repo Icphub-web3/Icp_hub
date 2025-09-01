@@ -1,0 +1,34 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies (backend)
+        run: npm install
+      - name: Run backend tests
+        run: npm test
+      - name: Run backend coverage
+        run: npm run coverage
+      - name: Install dependencies (frontend)
+        run: cd src/icp-hub-frontend && npm install
+      - name: Run frontend tests
+        run: cd src/icp-hub-frontend && npm test
+      - name: Run frontend coverage
+        run: cd src/icp-hub-frontend && npm run coverage
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            coverage/
+            src/icp-hub-frontend/coverage/
